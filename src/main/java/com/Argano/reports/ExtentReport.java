@@ -28,7 +28,7 @@ public class ExtentReport {
 			ExtentSparkReporter spark = new ExtentSparkReporter(FrameworkConstants.getEXTENTREPORTFILEPATH());
 			extent.attachReporter(spark);
 			spark.config().setTheme(Theme.STANDARD);
-			spark.config().setDocumentTitle("Keste");
+			spark.config().setDocumentTitle("ARGANO");
 			spark.config().setReportName(FrameworkConstants.getApplicationname());
 		
 		

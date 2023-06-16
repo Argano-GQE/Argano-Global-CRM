@@ -30,7 +30,7 @@ public class BaseTest {
 	protected void cleanUp(Object[] data) {
 
 		//Driver.quitDriver();
-   DriverManager.getDriver().quit();
+//   DriverManager.getDriver().quit();
 	}
 	
 	protected List<String> getStringListSplitbyComma(String testdata)

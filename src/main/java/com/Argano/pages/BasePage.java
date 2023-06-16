@@ -1,10 +1,12 @@
 package com.Argano.pages;
 
 import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
@@ -18,7 +20,6 @@ import com.Argano.enums.WaitStrategy;
 import com.Argano.factory.ExplicitWaitFactory;
 import com.Argano.reports.ExtentLogger;
 import com.google.common.util.concurrent.Uninterruptibles;
-
 
 public class BasePage {
 
@@ -39,6 +40,12 @@ public class BasePage {
 	}
 
 	protected void sendKeys(By by, String value, WaitStrategy waitstragety, int waitTime) {
+		ExplicitWaitFactory.performExplicitWait(by, waitstragety, waitTime).sendKeys(value);
+
+	}
+
+	@SuppressWarnings("unused")
+	protected void sendKeys(By by, Keys value, WaitStrategy waitstragety, int waitTime) {
 		ExplicitWaitFactory.performExplicitWait(by, waitstragety, waitTime).sendKeys(value);
 
 	}
@@ -85,6 +92,14 @@ public class BasePage {
 		return sb.toString();
 	}
 
+	protected static int getRandomNumber(int n) {
+
+		Random rand = new Random();
+
+		n = rand.nextInt(n);
+		return n;
+	}
+
 	protected static void jsOperation(JSAction jsaction, By by, String message) {
 		WebElement element = DriverManager.getDriver().findElement(by);
 		JavascriptExecutor executor = (JavascriptExecutor) DriverManager.getDriver();
@@ -117,7 +132,22 @@ public class BasePage {
 		}
 	}
 
-	protected String getcurrentDateInFormat(String format) {
+	// added the jsOperation with the explicitwait.
+	protected static void jsOperation(JSAction jsaction, By by, WaitStrategy waitstragety, int waitsTime) {
+		ExplicitWaitFactory.performExplicitWait(by, waitstragety, waitsTime);
+		WebElement element = DriverManager.getDriver().findElement(by);
+
+		JavascriptExecutor executor = (JavascriptExecutor) DriverManager.getDriver();
+
+		if (jsaction == JSAction.CLICK) {
+			executor.executeScript("arguments[0].click();", element);
+
+		} else if (jsaction == JSAction.SCROLLTOVIEW) {
+			executor.executeScript("arguments[0].scrollIntoView(true);", element);
+		}
+	}
+
+	public static String getcurrentDateInFormat(String format) {
 
 		Date date = new Date();
 		SimpleDateFormat simpleformat = new SimpleDateFormat(format);
@@ -144,6 +174,37 @@ public class BasePage {
 			list.remove(index);
 		}
 		return list;
+	}
+
+	protected String getDD() {
+
+		SimpleDateFormat formatter = new SimpleDateFormat("dd");
+		Date date = new Date();
+		String s = formatter.format(date);
+		if (s.charAt(0) == '0') {
+			return s.charAt(1) + "";
+		}
+		return s;
+
+	}
+
+	protected String getMM() {
+
+		SimpleDateFormat formatter = new SimpleDateFormat("mm");
+		Date date = new Date();
+		String s = formatter.format(date);
+
+		return s;
+
+	}
+
+	protected String getYYYY() {
+
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy");
+		Date date = new Date();
+		String s = formatter.format(date);
+
+		return s;
 	}
 
 	protected void refresh() {

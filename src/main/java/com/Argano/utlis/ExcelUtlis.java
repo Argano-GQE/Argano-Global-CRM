@@ -18,7 +18,11 @@ public final class ExcelUtlis {
 	private ExcelUtlis() {
 
 	}
-
+/**
+ * 
+ * @param sheetname
+ * @return 
+ * This method  */
 	public static List<Map<String, String>> getTestDetails(String sheetname) {
 
 		List<Map<String, String>> list = new ArrayList<Map<String, String>>();
@@ -38,9 +42,9 @@ public final class ExcelUtlis {
 				for (int j = 0; j < lastcolnum; j++) {
 
 					String key = sheet.getRow(0).getCell(j).getStringCellValue();
-					System.out.println("Sheet Value : " + key);
+//					System.out.println("Sheet Value : " + key);
 					String value = sheet.getRow(i).getCell(j).getStringCellValue();
-					System.out.println("Sheet Value : " + value);
+//					System.out.println("Sheet Value : " + value);
 					map.put(key, value);
 				}
 				list.add(map);

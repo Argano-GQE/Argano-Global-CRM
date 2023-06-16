@@ -17,7 +17,7 @@ public final class FrameworkConstants {
 	private static final String EXTENTREPORTFOLDERPATH = System.getProperty("user.dir") + "/extent-test-output/";
 	private static String EXTENTREPORTFILEPATH = "";
 	private static final String CHROMEDRIVERPATH = RESOURCESPATH + "/executables/chromedriver.exe";
-	private static final String APPLICATIONNAME = "ACI APPLICATION";
+	private static final String APPLICATIONNAME = "Argano Global CRM";
 	
 	private static final int IMPLICITYWAITTIME = 30;
 	
