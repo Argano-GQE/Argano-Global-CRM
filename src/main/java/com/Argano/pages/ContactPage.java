@@ -80,7 +80,7 @@ public class ContactPage extends BasePage {
 		final By AccountNameDropdownOption = By.xpath(AccountNameDropdownOptionXpath);
 
 		try {
-			jsOperation(JSAction.CLICK, AccountNameDropdownOption, WaitStrategy.CLICKABLE, 10);
+			jsOperation(JSAction.CLICK, AccountNameDropdownOption, WaitStrategy.CLICKABLE, 5);
 //			click(AccountNameDropdownOption, WaitStrategy.CLICKABLE, 15);
 		} catch (Exception e) {
 			sendKeys(txtAccountName, Keys.ARROW_DOWN, WaitStrategy.CLICKABLE, 5);

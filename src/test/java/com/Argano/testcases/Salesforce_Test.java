@@ -50,7 +50,7 @@ public class Salesforce_Test extends BaseTest {
 		Waits.sleep(5);
 		oppObj = new Opportunity();
 		String OpportunityName = oppObj.newOpportunity().oppname();
-		oppObj.enter_AccountName(AccountName).Select_Oppurtunitycategory("Intercompany SOW")
+		oppObj.enter_AccountName( AccountName).Select_Oppurtunitycategory("Intercompany SOW")
 				.Select_Stage("2. Proposal Development").Select_OppurtunityType("Net New (NN)").enter_closedate()
 				.enter_Stdate().Select_ItService("Implementation")
 				.Select_Service_Subtype("Infrastructure Implementation").enter_projectDuration()
@@ -59,7 +59,11 @@ public class Salesforce_Test extends BaseTest {
 		home.navigateToTab("Accounts");
 		Waits.sleep(5);
 		home.navigateToTab("Opportunities");
+		Waits.sleep(5);
+		
+		
 		oppObj.CloseLost(OpportunityName);
+		Waits.sleep(5);
  	  
 
 	}

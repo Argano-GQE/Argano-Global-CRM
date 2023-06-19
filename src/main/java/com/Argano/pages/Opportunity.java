@@ -92,7 +92,7 @@ public class Opportunity extends BasePage {
 		String AccountNameXpath = DynamicXpathUtlis.getXpath(Accvalue, AccountName);
 
 		try {
-			click(By.xpath(AccountNameXpath), WaitStrategy.CLICKABLE, 10, "account name" + AccountName);
+			click(By.xpath(AccountNameXpath), WaitStrategy.CLICKABLE, 5, "account name" + AccountName);
 		} catch (Exception e) {
 			sendKeys(Accname, Keys.ARROW_DOWN, WaitStrategy.CLICKABLE, 5);
 			sendKeys(Accname, Keys.ARROW_DOWN, WaitStrategy.CLICKABLE, 5);
@@ -234,38 +234,46 @@ public class Opportunity extends BasePage {
 	private final By txt_debreif_reason = By
 			.xpath("//label[text()='Debrief (Won/Lost/Not Awarded/Cancelled)']/parent::lightning-textarea//textarea");
 
-	private final By Closed_link = By.xpath("//a[@title='Closed']");
+	private final By Closed_link = By.xpath("//a[@title='6. Closed - Lost']");
 	private final By Select_Closed_Stage_bttn = By.xpath("//span[text()='Select Closed Stage']/parent::button");
 	private final By StageDropDown = By.xpath("//button[@name='StageName']");
 	private final String Stage_options = "//span[text()='%s']/ancestor::lightning-base-combobox-item";
 	private final By Done_bttn = By.xpath("//button[@type='submit']");
 	private final By reason_dropDown = By.xpath("//button[@name='Reason_Won_Lost_Not_Awarded__c']");
 	private final String reason_option = " //span[text()='%s']/ancestor::lightning-base-combobox-item ";
+	private final By Reason_dependencies = By
+			.xpath("//lightning-button //button[contains (@aria-label,'Reason (Won/Lost/Not Awarded/Cancelled)')]");
+	private final By apply_bttn = By.xpath("//button[text()='Apply']");
+	private final By save_bttn = By.xpath("//button[text()='Save']");
+//	private final By edit_reason_bttn=By.xpath("//button[contains (@title,'Reason (Won/Lost/Not Awarded/Cancelled)')]");
 
 	public Opportunity CloseLost(String opportunityName) {
 
 		String option = DynamicXpathUtlis.getXpath(Accsrcvalue, opportunityName);
+
 		click(By.xpath(option), WaitStrategy.CLICKABLE, 10);
+		
 		jsOperation(JSAction.CLICK, Debrief_reason_bttn, WaitStrategy.CLICKABLE, 10);
-
-		sendKeys(txt_debreif_reason, "Other", WaitStrategy.CLICKABLE, 20);
-		jsOperation(JSAction.CLICK, Closed_link, WaitStrategy.CLICKABLE, 10);
-		jsOperation(JSAction.CLICK, Select_Closed_Stage_bttn, WaitStrategy.CLICKABLE, 10);
-
-		try {
-			
-			option = DynamicXpathUtlis.getXpath(Stage_options, "6. Closed - Lost");
-			click(By.xpath(option), WaitStrategy.CLICKABLE, 10);
-		} catch (Exception e) {
-			click(StageDropDown, WaitStrategy.CLICKABLE, 10);
-			option = DynamicXpathUtlis.getXpath(Stage_options, "6. Closed - Lost");
-			click(By.xpath(option), WaitStrategy.CLICKABLE, 10);
-		}
+		jsOperation(JSAction.CLICK, Reason_dependencies, WaitStrategy.CLICKABLE, 10);
+//		click(Reason_dependencies, WaitStrategy.CLICKABLE, 10);
+		click(StageDropDown, WaitStrategy.CLICKABLE, 10);
+		option = DynamicXpathUtlis.getXpath(Stage_options, "6. Closed - Lost");
+		click(By.xpath(option), WaitStrategy.CLICKABLE, 10);
 
 		click(reason_dropDown, WaitStrategy.CLICKABLE, 10);
 		option = DynamicXpathUtlis.getXpath(reason_option, "Other");
+
 		click(By.xpath(option), WaitStrategy.CLICKABLE, 10);
-		click(Done_bttn, WaitStrategy.CLICKABLE, 10);
+		click(apply_bttn, WaitStrategy.CLICKABLE, 10);
+
+		sendKeys(txt_debreif_reason, "Other", WaitStrategy.CLICKABLE, 20);
+		
+		jsOperation(JSAction.CLICK, save_bttn, WaitStrategy.CLICKABLE, 10);
+		click(save_bttn, WaitStrategy.CLICKABLE, 10);
+		
+		jsOperation(JSAction.SCROLLTOVIEW, Closed_link);
+		Waits.sleep(5);
+
 		return this;
 	}
 
