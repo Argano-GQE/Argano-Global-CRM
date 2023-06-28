@@ -5,6 +5,7 @@ import java.util.Map;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import com.Argano.pages.AccountsPage;
+import com.Argano.pages.BasePage;
 import com.Argano.pages.ContactPage;
 import com.Argano.pages.Homepage;
 import com.Argano.pages.LeadPage;
@@ -52,6 +53,8 @@ public class GlobalCRM_Test extends BaseTest {
 		ExtentLogger.info("Navigated to Lead converted Account");
 		
 		String accountConversionMsg = accountspage.accountConversionMsg();
+		BasePage.sleep(5);
+		
 		Assert.assertEquals(data.get("ApprovedAccountType"), accountConversionMsg);
 		ExtentLogger.pass("Account converted to type : " + accountConversionMsg);
 		
@@ -66,6 +69,7 @@ public class GlobalCRM_Test extends BaseTest {
 		.SelectServiceSubcategory("Business Consulting").enterProjectduration("2")
 		.enterDebriefValue().SelectReason("Continuing Business").SaveOpportnitydetails()
 		.CompleteTheStage().ConvertToClosedWon();
+		BasePage.sleep(5);
 		Assert.assertTrue(opportunitypage.isStageChangeTxtDisplayed());
 		
 		ExtentLogger.pass("Opportunity marked as CLOSED WON");
@@ -104,7 +108,7 @@ public class GlobalCRM_Test extends BaseTest {
 		
 		homepage.navigateToTab("Opportunities");
 		opportunitypage.selectOpportuntiy(oppName).enterDebrief().markStageClosedLost();
-		
+		BasePage.sleep(5);
 		Assert.assertTrue(opportunitypage.isStageChangeTxtDisplayed());
 		
 		ExtentLogger.pass("Opportunity marked as CLOSED LOST");

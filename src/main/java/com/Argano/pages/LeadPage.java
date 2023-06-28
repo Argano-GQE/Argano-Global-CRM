@@ -10,8 +10,7 @@ import com.Argano.enums.JSAction;
 import com.Argano.enums.WaitStrategy;
 import com.Argano.reports.ExtentLogger;
 import com.Argano.utlis.DynamicXpathUtlis;
-import com.google.common.util.concurrent.Uninterruptibles; 
-
+import com.google.common.util.concurrent.Uninterruptibles;
 
 public class LeadPage extends ApplicationMethods {
 
@@ -32,7 +31,7 @@ public class LeadPage extends ApplicationMethods {
 
 //Tower
 	private final String towerValue = "//span[contains(text(),'%s')]/parent::label/following-sibling::div//input";
-	
+
 //Lead Details
 	private final By dropLeadStatus = By.xpath("//button[@aria-label='Lead Status, MCL']");
 	private final String dropLeadStatusvalue = "//span[contains(@title,'%s')]";
@@ -46,7 +45,6 @@ public class LeadPage extends ApplicationMethods {
 	private final By Cityname = By.xpath("//input[@name='city']");
 	private final By Zip = By.xpath("//input[@name='postalCode']");
 
-
 	private final By bttnSave = By.xpath("//button[@name='SaveEdit']");
 
 	private final By bttnStatusComplete = By
@@ -58,42 +56,40 @@ public class LeadPage extends ApplicationMethods {
 	private final By LeadConvertSucesssTXT = By
 			.xpath("//lightning-formatted-text[text()='Your lead has been converted']");
 
-	
 	private final By convertedAccount = By.xpath("//div[text()='Account']//parent::div//div//a");
 	private final By convertedContact = By.xpath("//div[text()='Contact']//parent::div//div//a");
 	private final By convertedOpportunity = By.xpath("//div[text()='Opportunity']//parent::div//div//a");
-	
-	public String getConvertedAccount()
-	{
-		return	getText(convertedAccount, 10);
-		
+
+	public String getConvertedAccount() {
+		return getText(convertedAccount, 10);
+
 	}
-	public String getConvertedContact()
-	{
-		return	getText(convertedContact, 5);
-		
+
+	public String getConvertedContact() {
+		return getText(convertedContact, 5);
+
 	}
-	public String getConvertedOpportunity()
-	{
-		return	getText(convertedOpportunity, 5);
-		
+
+	public String getConvertedOpportunity() {
+		return getText(convertedOpportunity, 5);
+
 	}
+
 	private final By bttnGotoLead = By.xpath("//button[text()='Go to Leads']");
 
-
-
-	public Boolean isLeadConverted()
-	{
+	public Boolean isLeadConverted() {
 		Uninterruptibles.sleepUninterruptibly(1, TimeUnit.SECONDS);
-		
-		return isDisplayed(LeadConvertSucesssTXT , 20);
+
+		return isDisplayed(LeadConvertSucesssTXT, 20);
 	}
+
 	public LeadPage updateLeadStatus() {
 
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 4; i++) {
 
 			jsOperation(JSAction.CLICK, bttnStatusComplete);
-			
+			sleep(5);
+
 		}
 		return this;
 
@@ -128,15 +124,14 @@ public class LeadPage extends ApplicationMethods {
 		return this;
 
 	}
-	
 
 	public LeadPage SelectLeadTower(String tower) {
 
-		
 		String leadTowerXpath = DynamicXpathUtlis.getXpath(towerValue, tower);
 		jsOperation(JSAction.SCROLLTOVIEW, By.xpath(leadTowerXpath));
-		jsOperation(JSAction.CLICK,  By.xpath(leadTowerXpath));
-		//click(By.xpath(leadTowerXpath), WaitStrategy.CLICKABLE, 5, "Selected Tower : " + tower);
+		jsOperation(JSAction.CLICK, By.xpath(leadTowerXpath));
+		// click(By.xpath(leadTowerXpath), WaitStrategy.CLICKABLE, 5, "Selected Tower :
+		// " + tower);
 
 		return this;
 
@@ -144,7 +139,7 @@ public class LeadPage extends ApplicationMethods {
 
 	public LeadPage enterLeadFirstName() {
 
-		sendKeys(txtFirstName,getFirstName(), WaitStrategy.CLICKABLE, 20);
+		sendKeys(txtFirstName, getFirstName(), WaitStrategy.CLICKABLE, 20);
 
 		return this;
 	}
@@ -214,10 +209,6 @@ public class LeadPage extends ApplicationMethods {
 		return this;
 	}
 
-
-
-
-
 	public LeadPage saveLead() {
 
 		click(bttnSave, WaitStrategy.CLICKABLE, 10);
@@ -229,9 +220,9 @@ public class LeadPage extends ApplicationMethods {
 		click(bttnConvert, WaitStrategy.CLICKABLE, 10);
 		sleep(10);
 		click(bttnConvertInPoPUp, WaitStrategy.CLICKABLE, 50000);
-		
+
 		return this;
-	
+
 	}
 
 	public LeadPage navigateTolead() {
@@ -240,10 +231,11 @@ public class LeadPage extends ApplicationMethods {
 
 		return this;
 	}
-	
-private final By dropDownCountry = By.xpath("//input[@name ='country']");
-	
-	private final By CountryListforBilling = By.xpath("//input[@name='country']/parent::div/following-sibling::div/lightning-base-combobox-item//span/span"); 
+
+	private final By dropDownCountry = By.xpath("//input[@name ='country']");
+
+	private final By CountryListforBilling = By.xpath(
+			"//input[@name='country']/parent::div/following-sibling::div/lightning-base-combobox-item//span/span");
 
 	public LeadPage selectleadCountry() {
 		jsOperation(JSAction.SCROLLTOVIEW, dropDownCountry);
@@ -253,15 +245,13 @@ private final By dropDownCountry = By.xpath("//input[@name ='country']");
 		String country = countryList.get(n).getAttribute("innerHTML");
 		jsOperation(JSAction.SCROLLTOVIEW, countryList.get(n));
 		jsOperation(JSAction.CLICK, countryList.get(n));
-		ExtentLogger.info("Selected country as :" + country );
+		ExtentLogger.info("Selected country as :" + country);
 		return this;
 	}
-	
-
 
 	public LeadPage enterLeadStreet() {
 
-		sendKeys(Street,getStreetName(), WaitStrategy.CLICKABLE, 10, "Lead Street");
+		sendKeys(Street, getStreetName(), WaitStrategy.CLICKABLE, 10, "Lead Street");
 		return this;
 	}
 
@@ -277,15 +267,14 @@ private final By dropDownCountry = By.xpath("//input[@name ='country']");
 		return this;
 	}
 
-
-	public LeadPage createLead(Map<String, String> data)
-	{
+	public LeadPage createLead(Map<String, String> data) {
 		clickNew();
-		Clicknextbttn().SelectTitletext().SelectSalutation(data.get("LeadSalutation")).enterLeadFirstName().enterLeadMiddleName().enterLeadLastName()
-		.enterCompanyName().enterCompanyEmail().enterDescription(data.get("LeadDescription")).SelectLeadsource(data.get("LeadSource"))
-		.SelectLeadsourcetype(data.get("LeadSourceType")).SelectLeadTower(data.get("LeadTower")).selectleadCountry().enterLeadStreet().enterLeadCity().enterLeadZipcode();
-	return this;
+		Clicknextbttn().SelectTitletext().SelectSalutation(data.get("LeadSalutation")).enterLeadFirstName()
+				.enterLeadMiddleName().enterLeadLastName().enterCompanyName().enterCompanyEmail()
+				.enterDescription(data.get("LeadDescription")).SelectLeadsource(data.get("LeadSource"))
+				.SelectLeadsourcetype(data.get("LeadSourceType")).SelectLeadTower(data.get("LeadTower"))
+				.selectleadCountry().enterLeadStreet().enterLeadCity().enterLeadZipcode();
+		return this;
 	}
-	
-	
+
 }

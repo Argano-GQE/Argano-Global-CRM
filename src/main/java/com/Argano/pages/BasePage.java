@@ -23,25 +23,59 @@ import com.github.javafaker.Faker;
 import com.google.common.util.concurrent.Uninterruptibles;
 
 public class BasePage {
-	private static final Faker faker = new Faker(new Locale("en-US"));
 	
-	protected void click(By by, WaitStrategy waitstragety, int waitTime, String logMessage) {
+	public void flash(WebElement element) {
+		String bgcolor = element.getCssValue("backgroundColor");
+		for (int i = 0; i < 10; i++) {
+			changeColor("rgb(0,200,0)", element);
+			changeColor(bgcolor, element);
 
+		}
+	}
+
+	public void changeColor(String color, WebElement element) {
+		JavascriptExecutor js = ((JavascriptExecutor) DriverManager.getDriver());
+		js.executeScript("arguments[0].style.backgroundColor = '" + color + "'", element);
+		try {
+			Thread.sleep(20);
+		} catch (InterruptedException e) {
+
+		}
+
+	}
+
+	public void drawBorder(WebElement element) {
+		JavascriptExecutor js = ((JavascriptExecutor) DriverManager.getDriver());
+		js.executeScript("arguments[0].style.border='6px solid yellow'", element);
+	}
+
+	private static final Faker faker = new Faker(new Locale("en-US"));
+
+	protected void click(By by, WaitStrategy waitstragety, int waitTime, String logMessage) {
+		WebElement element = DriverManager.getDriver().findElement(by);
+		drawBorder(element);
 		ExplicitWaitFactory.performExplicitWait(by, waitstragety, waitTime).click();
 		ExtentLogger.info(logMessage);
+		
 	}
 
 	protected void click(By by, WaitStrategy waitstragety, int waitTime) {
-
+		WebElement element = DriverManager.getDriver().findElement(by);
+		drawBorder(element);
 		ExplicitWaitFactory.performExplicitWait(by, waitstragety, waitTime).click();
+		
 	}
 
 	protected void sendKeys(By by, String value, WaitStrategy waitstragety, int waitTime, String elementname) {
+		WebElement element = DriverManager.getDriver().findElement(by);
+		flash(element);
 		ExplicitWaitFactory.performExplicitWait(by, waitstragety, waitTime).sendKeys(value);
-		ExtentLogger.info("Entered value " + value + " in " + elementname );
+		ExtentLogger.info("Entered value " + value + " in " + elementname);
 	}
 
 	protected void sendKeys(By by, String value, WaitStrategy waitstragety, int waitTime) {
+		WebElement element = DriverManager.getDriver().findElement(by);
+		flash(element);
 		ExplicitWaitFactory.performExplicitWait(by, waitstragety, waitTime).sendKeys(value);
 
 	}
@@ -119,9 +153,9 @@ public class BasePage {
 			executor.executeScript("arguments[0].scrollIntoView(true);", element);
 		}
 	}
-	
+
 	protected static void jsOperation(JSAction jsaction, WebElement element) {
-		
+
 		JavascriptExecutor executor = (JavascriptExecutor) DriverManager.getDriver();
 
 		if (jsaction == JSAction.CLICK) {
@@ -131,7 +165,6 @@ public class BasePage {
 			executor.executeScript("arguments[0].scrollIntoView(true);", element);
 		}
 	}
-
 
 	protected String getcurrentDateInFormat(String format) {
 
@@ -166,8 +199,6 @@ public class BasePage {
 		DriverManager.getDriver().navigate().refresh();
 	}
 
-
-
 	protected void alertAccept() {
 		DriverManager.getDriver().switchTo().alert().accept();
 	}
@@ -186,7 +217,7 @@ public class BasePage {
 		ExtentLogger.info(elementname + " is clicked");
 	}
 
-	protected void sleep(int i) {
+	public static void sleep(int i) {
 		try {
 			Thread.sleep(i * 1000);
 		} catch (InterruptedException e) {
@@ -203,15 +234,14 @@ public class BasePage {
 		n = rand.nextInt(n);
 		return n;
 	}
-	
-	protected  static int getRandomNumber(int min, int max) {
-	    return (int) ((Math.random() * (max - min)) + min);
+
+	protected static int getRandomNumber(int min, int max) {
+		return (int) ((Math.random() * (max - min)) + min);
 	}
 
 	protected String getTitletxt() {
 		return faker.job().position();
 	}
-
 
 	protected String getCompanyName() {
 		return faker.company().name().replaceAll("[^a-zA-Z ]", "");
@@ -248,7 +278,7 @@ public class BasePage {
 
 	protected String getPincode() {
 		return faker.address().zipCode();
-				}
+	}
 
 	protected String getEmailAddress() {
 		return faker.internet().emailAddress();
@@ -257,9 +287,8 @@ public class BasePage {
 	public static String getContactNumber() {
 		return faker.phoneNumber().cellPhone();
 	}
-	
-	protected boolean isDisplayed(By by, int waitTime)
-	{
-		return  ExplicitWaitFactory.performExplicitWait(by, WaitStrategy.PRESENCE, waitTime).isDisplayed();
+
+	protected boolean isDisplayed(By by, int waitTime) {
+		return ExplicitWaitFactory.performExplicitWait(by, WaitStrategy.PRESENCE, waitTime).isDisplayed();
 	}
 }
